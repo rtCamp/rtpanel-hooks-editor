@@ -108,7 +108,7 @@ function rtp_hooks_options_page( $pagehook ) {
 
     <div class="options-main-container">
         <?php settings_errors(); ?>
-        <a href="#" class="expand-collapse button-link" title="Show/Hide All">Show/Hide All</a>
+        <a href="#" class="expand-collapse button-link" title="<?php _e( 'Show/Hide All', 'rtPanel' ); ?>"><?php _e( 'Show/Hide All', 'rtPanel' ); ?></a>
         <div class="clear"></div>
         <div class="options-container">
             <form name="rt_hooks_form" id="rt_hooks_form" action="options.php" method="post" enctype="multipart/form-data">
