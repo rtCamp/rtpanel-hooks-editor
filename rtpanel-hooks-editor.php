@@ -83,8 +83,10 @@ function rtp_hooks_screen_options() {
 add_action( 'rtp_hooks_metaboxes', 'rtp_hooks_screen_options' );
 
 function rtp_hook_help( $contextual_help, $screen_id, $screen ) {
-    $contextual_help .= '<p>';
-    $contextual_help = __( 'With rtPanel Hook Plugin you can write the code for all the action hooks available in rtPanel from you rtPanel Admin.', 'rtPanel' );
+    $contextual_help = '<p>';
+    $contextual_help .= __( 'With rtPanel Hook Plugin you can write the code for all the action hooks available in rtPanel from you rtPanel Admin.', 'rtPanel' );
+    $contextual_help .= '</p><p>';
+    $contextual_help .= __( 'Have a look at all the hooks provided by rtPanel <a href="http://rtpanel.com/docs/developer/" title="rtPanel Hooks">here</a>.', 'rtPanel' );
     $contextual_help .= '</p><p>';
     $contextual_help .= __( '<strong>For more information, you can always visit:</strong>' , 'rtPanel' );
     $contextual_help .= '</p><p>';
@@ -149,6 +151,9 @@ function rtp_hooks_options_page( $pagehook ) {
 function rtp_hooks_metabox() {
         global $rtp_hooks; ?>
             <br />
+            <strong><?php _e( 'Have a look at all the hooks available in rtPanel' ); ?> -> <a target="_blank" href="http://rtpanel.com/docs/developer/" title="rtPanel Hooks">http://rtpanel.com/docs/developer/</a></strong>
+            <br />
+            <br />
             <strong><?php _e( 'Note', 'rtPanel' ); ?> : </strong><span class="description">Double Quotes(") should be escaped.</span>
             <table class="form-table">
                 <tbody><?php
@@ -164,18 +169,20 @@ function rtp_hooks_metabox() {
                                 $label = ucfirst( $part_label );
                         } ?>
                         <tr valign="top">
-                            <th scope="row"><p><label for="<?php echo $option_name; ?>"><?php _e( $label, 'rtPanel' ); ?></label></p></th>
-                            <td><textarea cols="33" rows="5" name="rtp_hooks[<?php echo $option_name; ?>]" id="<?php echo $option_name; ?>"><?php echo $rtp_hooks[$option_name]; ?></textarea><br /></td><?php
+                            <th scope="row"><p><label for="<?php echo $option_name; ?>"><?php _e( $label, 'rtPanel' ); ?><br/><em>rtp_hooks_<?php echo $option_name;  ?></em></label></p></th>
+                            <td><textarea cols="33" rows="5" name="rtp_hooks[<?php echo $option_name; ?>]" id="<?php echo $option_name; ?>"><?php echo $rtp_hooks[$option_name]; ?></textarea><br /></td>
+                        </tr><?php
                             if( !( $count % 2 ) ) { ?>
-                                <td>
+                            <tr>
+                                <td colspan="2">
                                     <div class="rtp_submit">
                                         <input class="button-primary" value="<?php _e( 'Save All Changes', 'rtPanel' ); ?>" name="rtp_submit" type="submit" />
                                         <input class="button-link" value="<?php _e( 'Reset All Hooks Settings', 'rtPanel' ); ?>" name="rtp_reset" type="submit" />
                                         <div class="clear"></div>
                                     </div>
-                                </td><?php
-                            } ?>
-                        </tr>
+                                </td>
+                            </tr><?php
+                                } ?>
                         <?php
                         $count++;
                     } ?>
@@ -191,7 +198,8 @@ function rtp_hooks_metabox() {
  */
 function rtp_eval_php( $code ) {
     ob_start();
-    eval("?>$code<?php ");
+    $sanitized_code = esc_attr( $code );
+    eval("?>$sanitized_code<?php ");
     $output = ob_get_contents();
     ob_end_clean();
     return $output;
