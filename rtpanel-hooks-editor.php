@@ -10,13 +10,24 @@ License: GNU General Public License, v2 (or newer)
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
+// Setup default values on plugin activation
 register_activation_hook( __FILE__, 'default_values' );
 
+/** 
+ * Register rtPanel Hooks Editor with the Settings API
+ * 
+ * @since rtPanel Hooks Editor 1.0
+ */
 function rtp_register_hooks() {
     register_setting( 'hook_settings', 'rtp_hooks', 'rtp_hooks_validate');
 }
 add_action( 'admin_init', 'rtp_register_hooks' );
 
+/** 
+ * Default Values
+ * 
+ * @since rtPanel Hooks Editor 1.0
+ */
 function default_values() {
     $default_hooks = array(
                         'before_header'          => '',
@@ -60,6 +71,11 @@ function default_values() {
     return $default_hooks;
 }
 
+/** 
+ * Hook the rtPanel Hooks Editor to rtPanel
+ * 
+ * @since rtPanel Hooks Editor 1.0
+ */
 function rtp_hooks( $theme_pages ) {
     $theme_pages['rtp_hooks'] = array(
                                     'menu_title' => __( 'Hooks', 'rtPanel' ),
@@ -69,6 +85,11 @@ function rtp_hooks( $theme_pages ) {
 }
 add_filter( 'rtp_add_theme_pages', 'rtp_hooks' );
 
+/** 
+ * Validate the Hooks
+ * 
+ * @since rtPanel Hooks Editor 1.0
+ */
 function rtp_hooks_validate( $input ) {
     if ( isset ( $_POST['rtp_reset'] ) ) {
        $input = default_values();
@@ -77,6 +98,11 @@ function rtp_hooks_validate( $input ) {
     return $input;
 }
 
+/** 
+ * Contextual Help for rtPanel Hooks Editor
+ * 
+ * @since rtPanel Hooks Editor 1.0
+ */
 function rtp_hooks_screen_options() {
     add_meta_box( 'hook_options', __( 'Hook Options', 'rtPanel' ), 'rtp_hooks_metabox', 'appearance_page_rtp_hooks', 'normal', 'core' );
 }
@@ -101,8 +127,14 @@ function rtp_hook_help( $contextual_help, $screen_id, $screen ) {
 }
 add_filter( 'contextual_help', 'rtp_hook_help', 10, 3 );
 
+// Get the rtPanel Hooks Editor options from database
 $rtp_hooks = get_option( 'rtp_hooks' );
 
+/** 
+ * rtPanel Hooks Editor Page
+ * 
+ * @since rtPanelChild 1.0
+ */
 function rtp_hooks_options_page( $pagehook ) {
     global $screen_layout_columns; ?>
 
@@ -148,6 +180,11 @@ function rtp_hooks_options_page( $pagehook ) {
     </div><?php
 }
 
+/** 
+ * rtPanel Hooks Editor Metaboxes ( Screen Options )
+ * 
+ * @since rtPanelChild 1.0
+ */
 function rtp_hooks_metabox() {
         global $rtp_hooks; ?>
             <br />
@@ -193,8 +230,8 @@ function rtp_hooks_metabox() {
 
 /**
  * Funtion to evalutate and execute php code
- * @param string $content
- * @return string
+ * 
+ * @since rtPanelChild 1.0
  */
 function rtp_eval_php( $code ) {
     ob_start();
@@ -205,6 +242,7 @@ function rtp_eval_php( $code ) {
     return $output;
 }
 
+/* Output the markup */
 foreach ( $rtp_hooks as $hook_name => $code ) {
     if ( !empty( $code ) ) {
         add_action( 'rtp_hook_'.$hook_name, create_function('', 'echo rtp_eval_php( "'.$code.'" );') );
