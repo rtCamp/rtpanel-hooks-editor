@@ -4,7 +4,7 @@ Donate link: http://rtpanel.com/donate/
 Tags: rtpanel, rtcamp, hooks, filters, actions
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: trunk
+Stable tag: 1.0.1
 
 This plugin adds hooks-editing interface in theme options for "rtPanel Theme Framework" - http://wordpress.org/extend/themes/rtpanel 
 
