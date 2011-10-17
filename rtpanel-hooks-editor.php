@@ -2,7 +2,7 @@
 /*
 Plugin Name: rtPanel Hooks Editor
 Description: Apply hooks through rtPanel admin directly.
-Version: 1.0
+Version: 1.0.1
 Author: rtCamp
 Author URI: http://rtcamp.com
 Contributors: rtCampers ( http://rtcamp.com/about/rtcampers/ )
@@ -235,8 +235,7 @@ function rtp_hooks_metabox() {
  */
 function rtp_eval_php( $code ) {
     ob_start();
-    $sanitized_code = esc_attr( $code );
-    eval("?>$sanitized_code<?php ");
+    eval("?>$code<?php ");
     $output = ob_get_contents();
     ob_end_clean();
     return $output;
