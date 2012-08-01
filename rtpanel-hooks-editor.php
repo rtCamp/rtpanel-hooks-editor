@@ -2,8 +2,8 @@
 /*
 Plugin Name: rtPanel Hooks Editor
 Description: Apply hooks through rtPanel admin directly.
-Version: 1.0.1
-Author: rtCamp
+Version: 2.0
+Author: rtcamp
 Author URI: http://rtcamp.com
 Contributors: rtCampers ( http://rtcamp.com/about/rtcampers/ )
 License: GNU General Public License, v2 (or newer)
@@ -30,30 +30,38 @@ add_action( 'admin_init', 'rtp_register_hooks' );
  */
 function default_values() {
     $default_hooks = array(
-                        'before_header'          => '',
-                        'after_header'           => '',
-                        'before_logo'            => '',
-                        'after_logo'             => '',
-                        'begin_content_wrapper'  => '',
-                        'end_content_wrapper'    => '',
-                        'begin_content'          => '',
-                        'end_content'            => '',
-                        'begin_post'             => '',
-                        'end_post'               => '',
-                        'begin_post_title'       => '',
-                        'end_post_title'         => '',
-                        'post_meta_top'          => '',
-                        'post_meta_bottom'       => '',
-                        'begin_post_meta_top'    => '',
-                        'end_post_meta_top'      => '',
-                        'begin_post_meta_bottom' => '',
-                        'end_post_meta_bottom'   => '',
-                        'begin_post_content'     => '',
-                        'end_post_content'       => '',
-                        'begin_sidebar'          => '',
-                        'end_sidebar'            => '',
-                        'before_footer'          => '',
-                        'after_footer'           => '',
+                        'begin_body'                => '',
+                        'end_body'                  => '',
+                        'begin_main_wrapper'        => '',
+                        'end_main_wrapper'          => '',
+                        'before_header'             => '',
+                        'after_header'              => '',
+                        'before_logo'               => '',
+                        'after_logo'                => '',
+                        'begin_content_wrapper'     => '',
+                        'end_content_wrapper'       => '',
+                        'begin_content'             => '',
+                        'end_content'               => '',
+                        'begin_post'                => '',
+                        'end_post'                  => '',
+                        'begin_post_title'          => '',
+                        'end_post_title'            => '',
+                        'post_meta_top'             => '',
+                        'post_meta_bottom'          => '',
+                        'begin_post_meta_top'       => '',
+                        'end_post_meta_top'         => '',
+                        'begin_post_meta_bottom'    => '',
+                        'end_post_meta_bottom'      => '',
+                        'begin_post_content'        => '',
+                        'end_post_content'          => '',
+                        'comments'                  => '',
+                        'sidebar'                   => '',
+                        'begin_sidebar'             => '',
+                        'end_sidebar'               => '',
+                        'before_footer'             => '',
+                        'after_footer'              => '',
+                        'single_pagination'         => '',
+                        'archive_pagination'        => '',
                     );
 
     if ( !get_option( 'rtp_hooks' ) ) {
@@ -64,12 +72,23 @@ function default_values() {
         foreach ( $blog_users as $blog_user ) {
           $blog_user_id = $blog_user->ID;
           if ( !get_user_meta( $blog_user_id, 'screen_layout_appearance_page_rtp_hooks' ) )
-          update_user_meta( $blog_user_id, 'screen_layout_appearance_page_hooks', 1, NULL );
+          update_user_meta( $blog_user_id, 'screen_layout_appearance_page_rtp_hooks', 1, NULL );
         }
     }
 
     return $default_hooks;
 }
+
+function rtp_hooks_admin_notice(){
+    $is_rtpanel = false;
+    if ( 'rtpanel' == get_template()  ) {
+        $is_rtpanel = true;
+    }
+    if ( !$is_rtpanel ) {
+        echo '<div class="error"><p>You need to use rtPanel Theme Framework to make use of this rtPanel Hooks Editor.</p></div>';
+    }
+}
+add_action('admin_notices', 'rtp_hooks_admin_notice');
 
 /** 
  * Hook the rtPanel Hooks Editor to rtPanel
@@ -108,24 +127,21 @@ function rtp_hooks_screen_options() {
 }
 add_action( 'rtp_hooks_metaboxes', 'rtp_hooks_screen_options' );
 
-function rtp_hook_help( $contextual_help, $screen_id, $screen ) {
+function rtp_hook_help() {
     $contextual_help = '<p>';
     $contextual_help .= __( 'With rtPanel Hook Plugin you can write the code for all the action hooks available in rtPanel from you rtPanel Admin.', 'rtPanel' );
     $contextual_help .= '</p><p>';
-    $contextual_help .= __( 'Have a look at all the hooks provided by rtPanel <a href="http://rtpanel.com/docs/developer/" title="rtPanel Hooks">here</a>.', 'rtPanel' );
-    $contextual_help .= '</p><p>';
-    $contextual_help .= __( '<strong>For more information, you can always visit:</strong>' , 'rtPanel' );
-    $contextual_help .= '</p><p>';
-    $contextual_help .= __( '<a href="http://rtpanel.com" title="rtPanel Official Page">rtPanel Official Page</a>' , 'rtPanel' );
-    $contextual_help .= '</p><p>';
-    $contextual_help .= __( '<a href="http://rtpanel.com/docs" title="rtPanel Documentation">rtPanel Documentation</a>' , 'rtPanel' );
-    $contextual_help .= '</p><p>';
-    $contextual_help .= __( '<a href="http://rtpanel.com/support" title="rtPanel Forum">rtPanel Forum</a>' , 'rtPanel' );
+    $contextual_help .= __( 'Have a look at all the hooks provided by rtPanel <a href="http://rtcamp.com/rtpanel/docs/developer/" title="rtPanel Hooks">here</a>.', 'rtPanel' );
     $contextual_help .= '</p>';
-    return $contextual_help;
+    
+    $screen = get_current_screen();
+    $screen->add_help_tab( array( 'title' => __( 'Hooks', 'rtPanel' ), 'id' => 'rtp-hooks-help', 'content' => $contextual_help ) );
 
 }
-add_filter( 'contextual_help', 'rtp_hook_help', 10, 3 );
+add_action( 'load-appearance_page_rtp_hooks', 'rtp_theme_options_help' );
+add_action( 'load-appearance_page_rtp_hooks', 'rtp_hook_help' );
+add_action( 'load-appearance_page_rtp_general', 'rtp_hook_help', 11 );
+add_action( 'load-appearance_page_rtp_post_comments', 'rtp_hook_help', 11 );
 
 // Get the rtPanel Hooks Editor options from database
 $rtp_hooks = get_option( 'rtp_hooks' );
@@ -188,10 +204,9 @@ function rtp_hooks_options_page( $pagehook ) {
 function rtp_hooks_metabox() {
         global $rtp_hooks; ?>
             <br />
-            <strong><?php _e( 'Have a look at all the hooks available in rtPanel' ); ?> -> <a target="_blank" href="http://rtpanel.com/docs/developer/" title="rtPanel Hooks">http://rtpanel.com/docs/developer/</a></strong>
+            <strong><?php _e( 'Have a look at all the hooks available in rtPanel', 'rtPanel' ); ?> -> <a target="_blank" href="http://rtcamp.com/rtpanel/docs/developer/" title="rtPanel Hooks">http://rtcamp.com/rtpanel/docs/developer/</a></strong>
             <br />
             <br />
-            <strong><?php _e( 'Note', 'rtPanel' ); ?> : </strong><span class="description">Double Quotes(") should be escaped.</span>
             <table class="form-table">
                 <tbody><?php
                     $admin_hooks = default_values();
@@ -206,8 +221,8 @@ function rtp_hooks_metabox() {
                                 $label = ucfirst( $part_label );
                         } ?>
                         <tr valign="top">
-                            <th scope="row"><p><label for="<?php echo $option_name; ?>"><?php _e( $label, 'rtPanel' ); ?><br/><em>rtp_hooks_<?php echo $option_name;  ?></em></label></p></th>
-                            <td><textarea cols="33" rows="5" name="rtp_hooks[<?php echo $option_name; ?>]" id="<?php echo $option_name; ?>"><?php echo $rtp_hooks[$option_name]; ?></textarea><br /></td>
+                            <th scope="row"><p><label for="<?php echo $option_name; ?>"><?php _e( $label, 'rtPanel' ); ?><br/><em>rtp_hook_<?php echo $option_name;  ?></em></label></p></th>
+                            <td><textarea cols="70" rows="7" name="rtp_hooks[<?php echo $option_name; ?>]" id="<?php echo $option_name; ?>"><?php echo isset( $rtp_hooks[$option_name] ) ? $rtp_hooks[$option_name] : ''; ?></textarea><br /></td>
                         </tr><?php
                             if( !( $count % 2 ) ) { ?>
                             <tr>
@@ -241,9 +256,11 @@ function rtp_eval_php( $code ) {
     return $output;
 }
 
-/* Output the markup */
-foreach ( $rtp_hooks as $hook_name => $code ) {
-    if ( !empty( $code ) ) {
-        add_action( 'rtp_hook_'.$hook_name, create_function('', 'echo rtp_eval_php( "'.$code.'" );') );
+if( $rtp_hooks ) {
+    /* Output the markup */
+    foreach ( $rtp_hooks as $hook_name => $code ) {
+        if ( !empty( $code ) ) {
+            add_action( 'rtp_hook_' . $hook_name, create_function('', 'echo rtp_eval_php( "' . addslashes ( stripslashes( $code ) ) . '" );') );
+        }
     }
 } ?>
