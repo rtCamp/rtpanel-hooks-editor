@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: rtPanel Hooks Editor
-Description: Apply hooks through rtPanel admin directly.
-Version: 2.0
+Description: his plugin adds hooks-editing interface in theme options for "rtPanel Theme Framework"
+Version: 2.2
 Author: rtcamp
 Author URI: http://rtcamp.com
 Contributors: rtCampers ( http://rtcamp.com/about/rtcampers/ )
@@ -256,11 +256,11 @@ function rtp_eval_php( $code ) {
     return $output;
 }
 
-if( $rtp_hooks ) {
+if( isset( $rtp_hooks ) && $rtp_hooks ) {
     /* Output the markup */
     foreach ( $rtp_hooks as $hook_name => $code ) {
         if ( !empty( $code ) ) {
             add_action( 'rtp_hook_' . $hook_name, create_function('', 'echo rtp_eval_php( "' . addslashes ( stripslashes( $code ) ) . '" );') );
         }
     }
-} ?>
+}
