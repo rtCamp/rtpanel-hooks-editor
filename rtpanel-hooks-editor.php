@@ -2,7 +2,7 @@
 /*
 Plugin Name: rtPanel Hooks Editor
 Description: his plugin adds hooks-editing interface in theme options for "rtPanel Theme Framework"
-Version: 2.2
+Version: 2.3
 Author: rtcamp
 Author URI: http://rtcamp.com
 Contributors: rtCampers ( http://rtcamp.com/about/rtcampers/ )
@@ -30,6 +30,7 @@ add_action( 'admin_init', 'rtp_register_hooks' );
  */
 function default_values() {
     $default_hooks = array(
+                        'head'                      => '',
                         'begin_body'                => '',
                         'end_body'                  => '',
                         'begin_main_wrapper'        => '',
@@ -221,7 +222,7 @@ function rtp_hooks_metabox() {
                                 $label = ucfirst( $part_label );
                         } ?>
                         <tr valign="top">
-                            <th scope="row"><p><label for="<?php echo $option_name; ?>"><?php _e( $label, 'rtPanel' ); ?><br/><em>rtp_hook_<?php echo $option_name;  ?></em></label></p></th>
+                            <th scope="row"><p><label for="<?php echo $option_name; ?>"><?php _e( $label, 'rtPanel' ); ?><br/><em><?php echo ($option_name == 'head') ? 'rtp_' : 'rtp_hook_'; ?><?php echo $option_name;  ?></em></label></p></th>
                             <td><textarea cols="70" rows="7" name="rtp_hooks[<?php echo $option_name; ?>]" id="<?php echo $option_name; ?>"><?php echo isset( $rtp_hooks[$option_name] ) ? $rtp_hooks[$option_name] : ''; ?></textarea><br /></td>
                         </tr><?php
                             if( !( $count % 2 ) ) { ?>
@@ -260,7 +261,10 @@ if( isset( $rtp_hooks ) && $rtp_hooks ) {
     /* Output the markup */
     foreach ( $rtp_hooks as $hook_name => $code ) {
         if ( !empty( $code ) ) {
-            add_action( 'rtp_hook_' . $hook_name, create_function('', 'echo rtp_eval_php( "' . addslashes ( stripslashes( $code ) ) . '" );') );
+            if ( $hook_name == 'head' )
+                add_action( 'rtp_' . $hook_name, create_function('', 'echo rtp_eval_php( "' . addslashes ( stripslashes( $code ) ) . '" );') );
+            else
+                add_action( 'rtp_hook_' . $hook_name, create_function('', 'echo rtp_eval_php( "' . addslashes ( stripslashes( $code ) ) . '" );') );
         }
     }
 }

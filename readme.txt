@@ -4,8 +4,8 @@ Tags: rtpanel, rtcamp, hooks, filters, actions
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.0
-Tested up to: 3.4.1
-Stable tag: 2.2
+Tested up to: 3.5.1
+Stable tag: 2.3
 
 This plugin adds hooks-editing interface in theme options for "rtPanel Theme Framework" - http://wordpress.org/extend/themes/rtpanel 
 
@@ -42,6 +42,10 @@ Please check the screenshot [here](http://rtcamp.com/files/2012/04/rtpanel-hooks
 You can check [rtPanel Hooks Developer Documentation](http://rtcamp.com/rtpanel/docs/developer/).
 
 == Changelog ==
+
+= 2.3 =
+
+* Added new hook relative to rtPanel 3.2+ ( rtp_head() )
 
 = 2.2 =
 
