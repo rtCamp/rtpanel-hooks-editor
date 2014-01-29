@@ -2,7 +2,7 @@
 /*
 Plugin Name: rtPanel Hooks Editor
 Description: his plugin adds hooks-editing interface in theme options for "rtPanel Theme Framework"
-Version: 2.3
+Version: 2.4
 Author: rtcamp
 Author URI: http://rtcamp.com
 Contributors: rtCampers ( http://rtcamp.com/about/rtcampers/ )
@@ -30,40 +30,51 @@ add_action( 'admin_init', 'rtp_register_hooks' );
  */
 function default_values() {
     $default_hooks = array(
-                        'head'                      => '',
-                        'begin_body'                => '',
-                        'end_body'                  => '',
-                        'begin_main_wrapper'        => '',
-                        'end_main_wrapper'          => '',
-                        'before_header'             => '',
-                        'after_header'              => '',
-                        'before_logo'               => '',
-                        'after_logo'                => '',
-                        'begin_content_wrapper'     => '',
-                        'end_content_wrapper'       => '',
-                        'begin_content'             => '',
-                        'end_content'               => '',
-                        'begin_post'                => '',
-                        'end_post'                  => '',
-                        'begin_post_title'          => '',
-                        'end_post_title'            => '',
-                        'post_meta_top'             => '',
-                        'post_meta_bottom'          => '',
-                        'begin_post_meta_top'       => '',
-                        'end_post_meta_top'         => '',
-                        'begin_post_meta_bottom'    => '',
-                        'end_post_meta_bottom'      => '',
-                        'begin_post_content'        => '',
-                        'end_post_content'          => '',
-                        'comments'                  => '',
-                        'sidebar'                   => '',
-                        'begin_sidebar'             => '',
-                        'end_sidebar'               => '',
-                        'before_footer'             => '',
-                        'after_footer'              => '',
-                        'single_pagination'         => '',
-                        'archive_pagination'        => '',
-                    );
+        'head'                      => '',
+        'begin_body'                => '',
+        'begin_main_wrapper'        => '',
+        'before_header'             => '',
+        'begin_primary_menu'        => '',
+        'end_primary_menu'          => '',
+        'begin_header'              => '',
+        'before_logo'               => '',
+        'after_logo'                => '',
+        'end_header'                => '',
+        'after_header'              => '',
+        'before_content_wrapper'    => '',
+        'begin_content_wrapper'     => '',
+        'begin_content_row'         => '',
+        'begin_content'             => '',
+        'begin_post'                => '',
+        'begin_post_title'          => '',
+        'end_post_title'            => '',
+        'begin_post_meta_top'       => '',
+        'end_post_meta_top'         => '',
+        'post_meta_top'             => '',
+        'begin_post_content'        => '',
+        'end_post_content'          => '',
+        'begin_post_meta_bottom'    => '',
+        'end_post_meta_bottom'      => '',
+        'post_meta_bottom'          => '',
+        'end_post'                  => '',
+        'single_pagination'         => '',
+        'comments'                  => '',
+        'archive_pagination'        => '',
+        'end_content'               => '',
+        'sidebar'                   => '',
+        'begin_sidebar'             => '',
+        'sidebar_content'           => '',
+        'end_sidebar'               => '',
+        'end_content_wrapper'       => '',
+        'after_content_wrapper'     => '',
+        'end_content_row'           => '',
+        'before_footer'             => '',
+        'begin_footer'              => '',
+        'end_footer'                => '',
+        'after_footer'              => '',
+        'end_main_wrapper'          => '',
+        'end_body'                  => '',
+    );
 
     if ( !get_option( 'rtp_hooks' ) ) {
         update_option( 'rtp_hooks', $default_hooks );
@@ -86,10 +97,10 @@ function rtp_hooks_admin_notice(){
         $is_rtpanel = true;
     }
     if ( !$is_rtpanel ) {
-        echo '<div class="error"><p>You need to use rtPanel Theme Framework to make use of this rtPanel Hooks Editor.</p></div>';
+        echo '<div class="error"><p>' . __( 'You need to use rtPanel Theme Framework to make use of this rtPanel Hooks Editor.', 'rtPanel' ) . '</p></div>';
     }
 }
-add_action('admin_notices', 'rtp_hooks_admin_notice');
+add_action( 'admin_notices', 'rtp_hooks_admin_notice' );
 
 /** 
  * Hook the rtPanel Hooks Editor to rtPanel
@@ -98,9 +109,9 @@ add_action('admin_notices', 'rtp_hooks_admin_notice');
  */
 function rtp_hooks( $theme_pages ) {
     $theme_pages['rtp_hooks'] = array(
-                                    'menu_title' => __( 'Hooks', 'rtPanel' ),
-                                    'menu_slug' => 'rtp_hooks'
-                                );
+        'menu_title'    => __( 'Hooks', 'rtPanel' ),
+        'menu_slug'     => 'rtp_hooks'
+    );
     return $theme_pages;
 }
 add_filter( 'rtp_add_theme_pages', 'rtp_hooks' );
@@ -205,7 +216,7 @@ function rtp_hooks_options_page( $pagehook ) {
 function rtp_hooks_metabox() {
         global $rtp_hooks; ?>
             <br />
-            <strong><?php _e( 'Have a look at all the hooks available in rtPanel', 'rtPanel' ); ?> -> <a target="_blank" href="http://rtcamp.com/rtpanel/docs/developer/" title="rtPanel Hooks">http://rtcamp.com/rtpanel/docs/developer/</a></strong>
+            <strong><?php _e( 'Have a look at all the hooks available in rtPanel', 'rtPanel' ); ?> -> <a target="_blank" href="http://rtcamp.com/rtpanel/docs/developer/" title="<?php _e( 'rtPanel Hooks', 'rtPanel' ); ?>">http://rtcamp.com/rtpanel/docs/developer/</a></strong>
             <br />
             <br />
             <table class="form-table">
