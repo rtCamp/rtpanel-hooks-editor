@@ -2,9 +2,9 @@
 /*
   Plugin Name: rtPanel Hooks Editor
   Description: his plugin adds hooks-editing interface in theme options for "rtPanel Theme Framework"
-  Version: 2.5
+  Version: 2.5.1
   Author: rtcamp
-  Author URI: https://rtcamp.com
+  Author URI: https://rtcamp.com/
   Contributors: rtCampers ( https://rtcamp.com/about/rtcampers/ )
   License: GNU General Public License, v2 (or newer)
   License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -136,7 +136,7 @@ function rtp_hook_help() {
 	$contextual_help  = '<p>';
 	$contextual_help .= __( 'With rtPanel Hook Plugin you can write the code for all the action hooks available in rtPanel from you rtPanel Admin.', 'rtPanel' );
 	$contextual_help .= '</p><p>';
-	$contextual_help .= __( 'Have a look at all the hooks provided by rtPanel <a href="https://rtcamp.com/rtpanel/docs/developer/" title="rtPanel Hooks">here</a>.', 'rtPanel' );
+	$contextual_help .= __( 'Have a look at all the hooks provided by rtPanel <a href="http://docs.rtcamp.com/rtpanel/developer/" title="rtPanel Hooks">here</a>.', 'rtPanel' );
 	$contextual_help .= '</p>';
 
 	$screen = get_current_screen();
@@ -210,7 +210,7 @@ function rtp_hooks_options_page( $pagehook ) {
 function rtp_hooks_metabox() {
 	global $rtp_hooks; ?>
 	<br />
-	<strong><?php _e( 'Have a look at all the hooks available in rtPanel', 'rtPanel' ); ?> -> <a target="_blank" href="https://rtcamp.com/rtpanel/docs/developer/" title="<?php _e( 'rtPanel Hooks', 'rtPanel' ); ?>">https://rtcamp.com/rtpanel/docs/developer/</a></strong>
+	<strong><?php _e( 'Have a look at all the hooks available in rtPanel', 'rtPanel' ); ?> -> <a target="_blank" href="http://docs.rtcamp.com/rtpanel/developer/" title="<?php _e( 'rtPanel Hooks', 'rtPanel' ); ?>">http://docs.rtcamp.com/rtpanel/developer/</a></strong>
 	<br />
 	<br />
 	<table class="form-table">
