@@ -1,4 +1,5 @@
-=== rtPanel Hooks Editor ===
+# rtPanel Hooks Editor 
+
 Contributors: rtcamp
 Tags: rtpanel, rtcamp, hooks, filters, actions
 License: GPLv2 or later
@@ -9,7 +10,7 @@ Stable tag: 2.5.1
 
 This plugin adds hooks-editing interface in theme options for "rtPanel Theme Framework" - https://wordpress.org/themes/rtpanel
 
-== Description ==
+## Description 
 
 This plugin is add-on for [rtPanel Theme Framework](https://wordpress.org/themes/rtpanel "rtPanel Theme Framework") and should be used alongwith it.
 
@@ -17,13 +18,13 @@ It adds an option page under rtPanel Theme Options, using which, a user can writ
 
 Using this plugin a user need not edit any theme files to achieve desired functionality.
 
-= Useful Links =
+## Useful Links 
 
 * [rtPanel Hooks Editor Plugin's Homepage](https://rtcamp.com/rtpanel/plugins-list/rtpanel-hooks-editor/)
 * [Hooks Reference](http://docs.rtcamp.com/rtpanel/developer/)
 * [Free Support Forum](http://community.rtcamp.com/c/rtpanel)
 
-== Installation ==
+## Installation
 
 Install the plugin from the 'Plugins' section in your dashboard (Plugins > Add New > Search for rtPanel Hooks Editor).
 
@@ -31,11 +32,11 @@ Alternatively you can download the plugin from the repository. Unzip it and uplo
 
 Activate it through the 'Plugins' section.
 
-== Screenshots == 
+## Screenshots
 
 Please check the screenshot [here](https://rtcamp.com/wp-content/uploads/2012/04/rtpanel-4-1-5-hooks.png).
 
-== Frequently Asked Questions ==
+## Frequently Asked Questions 
 
 = How can I find which hook to edit? =
 
@@ -71,3 +72,7 @@ You can check [rtPanel Hooks Developer Documentation](http://docs.rtcamp.com/rtp
 = 1.0 =
 
 * Initial release
+
+## Does this interest you?
+
+<a href="https://rtcamp.com/"><img src="https://rtcamp.com/wp-content/uploads/2019/04/github-banner@2x.png" alt="Join us at rtCamp, we specialize in providing high performance enterprise WordPress solutions"></a>
